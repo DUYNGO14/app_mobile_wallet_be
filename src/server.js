@@ -5,10 +5,13 @@ import cors from "cors";
 import { initDB } from "./config/db.js";
 import transactionsRoute from "./routes/transactionsRoute.js";
 import rateLimiter from "./middleware/rateLimiter.js";
+import job from "./config/cron.js";
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+if (process.env.NODE_ENV === "production") job.start();
 // middleware
 app.use(cors({ origin: "*" }));
 app.use(rateLimiter);
